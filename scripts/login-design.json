@@ -1,0 +1,1 @@
+{"_id":"_design/login","language":"javascript","views":{"by_id":{"map":"function(doc) {\n  if(doc.type == \"login\") {\n    emit(doc._id, doc);\n  }\n}"}}}
