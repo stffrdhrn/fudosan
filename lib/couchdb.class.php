@@ -7,7 +7,7 @@ class CouchDB {
   protected $user;
   protected $password;
 
-  function connect($host, $port, $user = NULL, $password = NULL) {
+  function __construct($host, $port, $user = NULL, $password = NULL) {
     $this->host = $host;
     $this->port = $port;
     $this->user = $user;

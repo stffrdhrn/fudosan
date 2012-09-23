@@ -3,7 +3,7 @@
 function gravatar($model, $size=128) {
   if ($model['email']) { 
     $hash = md5( strtolower( trim( $model['email'] ) ) );
-    return "<img class='img-rounded' alt='gravatar' src='http://www.gravatar.com/avatar/$hash?d=retro&s=$size&r=pg'/>";
+    return "<img class='img-rounded' alt='gravatar' src='http://www.gravatar.com/avatar/$hash?d=retro&s=$size&r=pg' width='$size' height='$size'/>";
   }
   return null;
 }

@@ -15,7 +15,7 @@
     <table class="table">
       <?php  foreach ($clients as $client) { ?>
       <tr>
-         <td width="40px"><?php echo gravatar($client, 24)  ?>
+         <td width="48px"><?php echo gravatar($client, 32)  ?>
          <td><?php echo $client['name']  ?>
          <td><a class="btn btn-danger btn-mini" href="javascript:unlink('<?php echo $model['_id']."','".$client['_id'] ?>')">x</a>
       </tr>

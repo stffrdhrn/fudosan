@@ -15,7 +15,7 @@
       <ul class="nav">
 <?php if ($login) { ?>
         <li><a href="index.php?url=property/listall/<?php echo urlencode($login['_id'])?>">Properties</a>
-        <li><a href="index.php?url=login/edit/<?php echo urlencode($login['_id'])?>">Preferenes</a>
+        <li><a href="index.php?url=login/edit/<?php echo urlencode($login['_id'])?>">Preferences</a>
         <li><a href="index.php?url=login/logout">Logout</a>
 <?php } else { ?>
         <li><a href="index.php?url=login/start">Login</a>

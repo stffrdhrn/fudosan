@@ -28,13 +28,11 @@ require_once 'Auth/OpenID/Nonce.php';
 class Auth_OpenID_CouchDBStore {
 
     function Auth_OpenID_CouchDBStore () {
-      $this->association = new CouchDB();
-      $this->association->connect(DB_HOST, DB_PORT);
+      $this->association = new CouchDB(DB_HOST, DB_PORT);
       $this->association->database = DB_NAME;
       $this->association->table = 'association';
 
-      $this->nonce = new CouchDB();
-      $this->nonce->connect(DB_HOST, DB_PORT);
+      $this->nonce = new CouchD(DB_HOST, DB_PORT);
       $this->nonce->database = DB_NAME;
       $this->nonce->table = 'nonce';
     }

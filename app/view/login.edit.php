@@ -1,12 +1,14 @@
 <div class="container-fluid">
   <div class="row-fluid">
-    <div class="span2">
+    <div class="span2 thumbnails">
+     <div class="thumbnail">
 <?php
       $gravatar = gravatar($model, 128);
       if ($gravatar) {
         echo $gravatar; ?>
       <a target="blank" href="http://www.gravatar.com">change picture</a>
 <?php } ?>
+     </div>
     </div>
     <div class="span10">
       <form method="post" action="index.php?url=login/save">

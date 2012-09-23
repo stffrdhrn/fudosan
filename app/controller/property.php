@@ -3,7 +3,7 @@ class PropertyController extends Controller {
   function get($id) {
     $this->set('title', "Viewing property $id");
     $this->set('model', $this->Property->select($id));
-    $this->set('clients', $this->Property->select_clause_array($id, "by_id_loginid", true));
+    $this->set('clients', $this->Property->select_clause_array($id, "by_id_logins", true));
   }
 
   function listall($id = NULL) {
