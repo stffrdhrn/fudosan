@@ -1,3 +1,5 @@
+ <div class="container-fluid">
+  <div class="row-fluid">
   <div id="property" class="span9">
     <h4>Property</h4>
     <table class="table">
@@ -37,7 +39,8 @@
   
     </div>
   </div>
-
+  </div>
+</div>
 <script>
   function jquery_ready() {
     $('#allclients').load('index.php?url=login/listall.body', 

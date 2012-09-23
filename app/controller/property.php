@@ -53,6 +53,7 @@ class PropertyController extends Controller {
 
     $result = array();
     if ($property && $loginid) {
+      # If not already linked, link it up and save
       if(!$property['clients'][$loginid]) {
         $login = array('_id' => $loginid);
         $property['clients'][$loginid] = $login;

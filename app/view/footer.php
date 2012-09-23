@@ -9,6 +9,5 @@
         $(document).ready(jquery_ready);
       }
     </script>
-    </div></div> <!-- row-fluid container-fluid -->
   </body>
 </html>

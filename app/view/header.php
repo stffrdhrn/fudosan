@@ -14,8 +14,8 @@
       <a class="brand" href="index.php">Bassai</a>
       <ul class="nav">
 <?php if ($login) { ?>
-        <li><a href="index.php?url=property/listall/<?php echo urlencode($login)?>">Properties</a>
-        <li><a href="index.php?url=login/edit/<?php echo urlencode($login)?>">Preferenes</a>
+        <li><a href="index.php?url=property/listall/<?php echo urlencode($login['_id'])?>">Properties</a>
+        <li><a href="index.php?url=login/edit/<?php echo urlencode($login['_id'])?>">Preferenes</a>
         <li><a href="index.php?url=login/logout">Logout</a>
 <?php } else { ?>
         <li><a href="index.php?url=login/start">Login</a>
@@ -24,8 +24,6 @@
     </div>
    </div>
   </div>
-<div class="container-fluid">
-  <div class="row-fluid">
 <?php if (isset($error)) { ?>
 <div class="alert alert-error">
   <button type="button" class="close" data-dismiss="alert">×</button>

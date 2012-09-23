@@ -8,7 +8,22 @@
       $view = strtolower($model);
       
       $this->$model =& new $model;
+      $this->Login =& new Login();
       $this->template =& new Template($view,$action, $content_type);
+      $this->set_login($_SESSION['login']); 
+    }
+
+    function set_login($loginid) {
+      if($loginid) {
+        $_SESSION['login'] = $loginid;
+        $this->login = $this->Login->select($loginid);
+        $this->template->set('login', $this->login);      
+      } else {
+        $_SESSION['login'] = null;
+        $this->login = null;
+        $this->template->set('login', null);
+      }
+      return $this->login;
     }
 
     function redirect($action) {
@@ -20,7 +35,6 @@
     }
     
     function __destruct() {
-      $this->template->set('login', $_SESSION['login']);
       $this->template->render();
     }
  }

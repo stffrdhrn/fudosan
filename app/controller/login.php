@@ -172,9 +172,9 @@ class LoginController extends Controller {
       $this->set('success', $success);
     }
 
-    $_SESSION['login'] = $openid;
-    $login = $this->Login->select($openid);
+    $login = $this->set_login($openid);
     if (!$login) {
+      # No login in the DB yet, we need to create a profile
       $this->edit($openid);
       $this->redirect('edit');
     } else {
@@ -184,18 +184,12 @@ class LoginController extends Controller {
   }
 
   function edit($id = null) {
-    if (!$id) {
-      $id = $_SESSION['login'];
-    }
-    if (!$id) {
-      $this->displayError("You are not logged in you cant edit");
-    }
-      
-    if (!$id) {
+    $login = $this->Login->select($id);    
+ 
+    if (!$login) {
       $this->set('title', 'Create a new profile'); 
-      $this->set('model', array()); 
+      $this->set('model', array('_id' => $id)); 
     } else {
-      $login = $this->Login->select($id);
       $this->set('title', 'Editing '.$login['name'].' profile'); 
       $this->set('model', $login); 
     }
@@ -203,19 +197,19 @@ class LoginController extends Controller {
   }
 
   function save() {
-    $id = $_POST["_id"];
-    if(!$id) {
-      $id = $_POST['login'];
-    }
+    $id = $_POST['_id'];
     $result = $this->Login->save($id, $_POST);
+
     if(isset($result["error"])) {
       $this->set('error', $error ); 
     } else {
       $this->set('success', $_POST['name'] . ' saved');
     }
 
-#    var_dump($result);
-
+    # Update the login properties 
+    if ($id == $_SESSION['login']) { 
+      $this->set_login($id);
+    }
     $this->edit($id);
     $this->redirect('edit');
 
@@ -229,7 +223,7 @@ class LoginController extends Controller {
   }
 
   function logout() {
-    unset($_SESSION['login']);
+    $this->set_login(null);
     $this->set('title', "Logout Complete");
     $this->set('success', "Logout Complete");
     $this->redirect('start');
