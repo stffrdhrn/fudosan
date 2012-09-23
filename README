@@ -1,0 +1,15 @@
+This app and framework is being adapted from a few we resources
+
+  PHP MVC - http://anantgarg.com/2009/03/13/write-your-own-php-mvc-framework-part-1/
+  PHP Couch - http://wiki.apache.org/couchdb/Getting_started_with_PHP
+  
+PHP is to be used for
+  - DB access
+  - Authentication
+  - serving json
+
+Front end 
+  - jQuery
+  - jQuery UI for drag n drop
+  - twitter bootstrap
+  - Javascript 

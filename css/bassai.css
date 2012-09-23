@@ -1,0 +1,13 @@
+body {
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.droppable {
+  padding: 14px;
+}
+
+.droppable-hover {
+  padding: 12px;
+  border: 2px dotted gray;
+}
