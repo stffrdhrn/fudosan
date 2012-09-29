@@ -16,31 +16,29 @@ function strtoid($str) {
 }
 
 function parse_rest_url($url) {
-  $controller = null;
-  $action = null;
+  # Defaults
+  $controller = 'nav';
+  $action = 'home';
   $content_type = null;
   $query_string = null;
 
-  # Parse URL (controller, $action, $query) = controller/action/query
-  $p1 = strpos($url, '/');
-  if ($p1) {
-    $controller = substr($url, 0, $p1);
-    $p2 = strpos($url, '/', $p1+1);
-    if ($p2) {
-      $action = substr($url, $p1+1, $p2-$p1-1);
-      $query_string = substr($url, $p2+1);
+  if ($url) {
+    # Parse URL (controller, $action, $query) = controller/action/query
+    $p1 = strpos($url, '/');
+    if ($p1) {
+      $controller = substr($url, 0, $p1);
+      $p2 = strpos($url, '/', $p1+1);
+      if ($p2) {
+        $action = substr($url, $p1+1, $p2-$p1-1);
+        $query_string = substr($url, $p2+1);
+      } else {
+        $action = substr($url, $p1+1);
+      }
     } else {
-      $action = substr($url, $p1+1);
+      $controller = $url;
     }
-  } else {
-    $controller = $url;
+    # Parse URL complete
   }
-  # Parse URL complete
-
-  if ($action == NULL) {
-    $action = 'run';
-  }
- 
   # if action contains something like action.json
   # then we want the stuff after the '.' to be content 
   # type

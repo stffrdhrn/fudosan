@@ -24,6 +24,8 @@ class Template {
       $this->render_json();
     } else if($this->content_type == "body") {
       $this->render_html(true);
+    } else if($this->content_type == "data") {
+      $this->render_data();
     } else {
       $this->render_html();
     }
@@ -44,6 +46,24 @@ class Template {
     
     if(!$have_content) {
       echo "No json view please create one in /app/view/json.php";
+    }
+  }
+
+  function render_data() {
+    extract($this->variables);
+    $jsonPath = ROOT . '/app/view/data.php';
+
+    $have_content = false;
+    foreach(array($jsonPath) as $path) {
+      if (file_exists($path)) {
+        $have_content = true;
+        require_once($path);
+        break;
+      }
+    }
+    
+    if(!$have_content) {
+      echo "No json view please create one in /app/view/data.php";
     }
   }
 

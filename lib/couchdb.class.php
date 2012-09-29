@@ -4,14 +4,15 @@ class CouchDB {
   protected $host;
   protected $port;
 
-  protected $user;
-  protected $password;
-
   function __construct($host, $port, $user = NULL, $password = NULL) {
     $this->host = $host;
     $this->port = $port;
-    $this->user = $user;
-    $this->password = $password;
+
+    $this->headers = array();
+    $this->headers['Host'] = $this->host;
+    if($user) {
+      $this->headers['Authorization'] = 'Basic ' . base64_encode($user.':'.$password);
+    }
   }
   
   function send($method, $url, $post_data = NULL) {
@@ -22,19 +23,19 @@ class CouchDB {
       );
     } 
 
-    $request = "$method $url HTTP/1.0\r\nHost: $this->host\r\n"; 
-
-    if ($this->user) {
-      $request .= "Authorization: Basic ".base64_encode("$this->user:$this->password")."\r\n"; 
+    $request = "$method $url HTTP/1.0\r\n"; 
+    foreach($this->headers as $header => $value) {
+      $request .= $header.': '.$value."\r\n";
     }
 
     if($post_data) {
-      $request .= "Content-Length: ".strlen($post_data)."\r\n\r\n"; 
-      $request .= "$post_data\r\n";
+      if(!isset($this->headers['Content-Length'])) {
+        $this->headers['Content-Length'] = strlen($post_data);
+      }
+      $request .= "\r\n$post_data\r\n";
     } else {
       $request .= "\r\n";
     }
-
     fwrite($s, $request); 
     $response = ""; 
 
@@ -92,6 +93,40 @@ class CouchDB {
    $id = urlencode($id);
    $doc['type'] = $this->table;
    return $this->send('PUT', '/'.$this->database.'/'.$id, json_encode($doc));
+  }
+ 
+  function save_file($id, $file_loc) {
+    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+    $content_type = finfo_file($finfo, $file_loc);
+    finfo_close($finfo);
+
+    $content_length = filesize($file_loc);
+    $bindata = fread(fopen($file_loc, "r"), $content_length);
+
+    $this->headers['Content-Type'] = $content_type;
+    $this->headers['Content-Length'] = $content_length;
+
+    $id = urlencode($id);
+    $url =  '/'.$this->database.'/'.$this->table.'/'.$id;
+
+    $doc = $this->send('GET','/'.$this->database.'/'.$this->table);
+    if ($doc && $doc['_rev']) {
+      $url .= '?rev='.$doc['_rev'];
+    }
+    return $this->send('PUT',$url,$bindata);
+  }
+
+  function select_attachment($id) {
+    $id = urlencode($id);
+    $url =  '/'.$this->database.'/'.$this->table;
+    $docs = $this->send('GET', $url);
+    $attachment = null;
+    if($docs && isset($docs['_attachments'][$id])) {
+      $attachment = array();
+      $attachment['content_type'] = $docs['_attachments'][$id]['content_type'];
+      $attachment['data'] = file_get_contents("http://".$this->host.":".$this->port.$url.'/'.$id);
+    }
+    return $attachment;
   }
  
 }
