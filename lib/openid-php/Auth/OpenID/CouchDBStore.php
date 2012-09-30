@@ -32,7 +32,7 @@ class Auth_OpenID_CouchDBStore {
       $this->association->database = DB_NAME;
       $this->association->table = 'association';
 
-      $this->nonce = new CouchD(DB_HOST, DB_PORT);
+      $this->nonce = new CouchDB(DB_HOST, DB_PORT);
       $this->nonce->database = DB_NAME;
       $this->nonce->table = 'nonce';
     }
@@ -55,7 +55,7 @@ class Auth_OpenID_CouchDBStore {
       $assoc = array(
         '_id' => $server_url,
         'handle' => $association->handle,
-        'secret' => $association->secret,
+        'secret' => base64_encode($association->secret),
         'issued' => $association->issued,
         'lifetime' => $association->lifetime,
         'assoc_type' => $association->assoc_type,
@@ -152,7 +152,16 @@ class Auth_OpenID_CouchDBStore {
      */
     function getAssociation($server_url, $handle = null)
     {
-      $this->association->select($server_url);
+      $assoc = $this->association->select($server_url);
+      if(isset($assoc)) { 
+        return new Auth_OpenID_Association($assoc['handle'],
+                                            base64_decode($assoc['secret']),
+                                            $assoc['issued'],
+                                            $assoc['lifetime'],
+                                            $assoc['assoc_type']);
+      } else {
+        return null;
+      }
     }
 
     /**
@@ -206,9 +215,9 @@ class Auth_OpenID_CouchDBStore {
             return false;
         }
 
-        $nounce = array( 
+        $nonce = array( 
           'server_url' => $server_url,
-          'timestamp' => $timestame,
+          'timestamp' => $timestamp,
           'salt' => $salt,
         );
 

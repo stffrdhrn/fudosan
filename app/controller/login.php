@@ -109,6 +109,7 @@ class LoginController extends Controller {
             $this->displayError("Could not redirect to server: " . $form_html->message);
         } else {
             $this->set('form', $form_html);
+            $this->set('title', 'Redirecting');
             $this->redirect('redirect');
         }
     }
@@ -165,7 +166,7 @@ class LoginController extends Controller {
         }
     }
 
-    if($msg) {
+    if(isset($msg)) {
       $this->displayError($msg);
     }
     if($success) {
@@ -200,8 +201,8 @@ class LoginController extends Controller {
     $id = $_POST['_id'];
     $result = $this->Login->save($id, $_POST);
 
-    if(isset($result["error"])) {
-      $this->set('error', $error ); 
+    if($result["error"]) {
+      $this->set('error', $result['error'] ); 
     } else {
       $this->set('success', $_POST['name'] . ' saved');
     }

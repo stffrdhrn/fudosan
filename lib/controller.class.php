@@ -10,7 +10,10 @@
       $this->$model =& new $model;
       $this->Login =& new Login();
       $this->template =& new Template($view,$action, $content_type);
-      $this->set_login($_SESSION['login']); 
+
+      if(isset($_SESSION['login'])) {
+        $this->set_login($_SESSION['login']);
+      }
     }
 
     function set_login($loginid) {

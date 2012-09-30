@@ -13,7 +13,7 @@
      <div class="container-fluid">
       <a class="brand" href="index.php">Bassai</a>
       <ul class="nav">
-<?php if ($login) { ?>
+<?php if (isset($login)) { ?>
         <li><a href="index.php?url=property/listall/<?php echo urlencode($login['_id'])?>">Properties</a>
         <li><a href="index.php?url=login/edit/<?php echo urlencode($login['_id'])?>">Preferences</a>
         <li><a href="index.php?url=login/logout">Logout</a>
