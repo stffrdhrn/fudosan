@@ -1,12 +1,12 @@
 <div class="container-fluid">
   <div class="row-fluid">
-    <div class="span2 thumbnails">
-     <div class="thumbnail">
+    <div class="span2">
+     <div class="center">
 <?php
       $gravatar = gravatar($model, 128);
       if ($gravatar) {
         echo $gravatar; ?>
-      <a target="blank" href="http://www.gravatar.com">change picture</a>
+      <p><a target="blank" href="http://www.gravatar.com">change picture</a></p>
 <?php } ?>
      </div>
     </div>

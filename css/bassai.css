@@ -11,3 +11,7 @@ body {
   padding: 12px;
   border: 2px dotted gray;
 }
+
+.center {
+  text-align: center; 
+}
