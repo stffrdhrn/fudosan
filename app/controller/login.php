@@ -201,7 +201,7 @@ class LoginController extends Controller {
     $id = $_POST['_id'];
     $result = $this->Login->save($id, $_POST);
 
-    if($result["error"]) {
+    if(isset($result['error'])) {
       $this->set('error', $result['error'] ); 
     } else {
       $this->set('success', $_POST['name'] . ' saved');

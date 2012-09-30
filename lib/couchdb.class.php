@@ -3,6 +3,7 @@ class CouchDB {
   protected $socket;
   protected $host;
   protected $port;
+  protected $debug = false;
 
   function __construct($host, $port, $user = NULL, $password = NULL) {
     $this->host = $host;
@@ -24,7 +25,7 @@ class CouchDB {
     } 
 
     $request = "$method $url HTTP/1.0\r\n"; 
-    if($post_data && !$this->headers['Content-Length']) {
+    if($post_data && !isset($this->headers['Content-Length'])) {
       $this->headers['Content-Length'] = strlen($post_data);
     }
     foreach($this->headers as $header => $value) {
@@ -37,14 +38,18 @@ class CouchDB {
       $request .= "\r\n";
     }
 
-#echo "<label>request</label><pre>$request</pre>";
+    if($this->debug) {
+      echo "<label>request</label><pre>$request</pre>";
+    }
     fwrite($s, $request); 
     $response = ""; 
 
     while(!feof($s)) {
       $response .= fgets($s);
     }
-#echo "<label>response</label><pre>$response</pre>";
+    if($this->debug) {
+      echo "<label>response</label><pre>$response</pre>";
+    }
 
     list($headers, $body) = explode("\r\n\r\n", $response); 
     return json_decode($body, true);
