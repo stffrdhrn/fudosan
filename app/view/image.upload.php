@@ -1,4 +1,3 @@
-<img src="index.php?url=image/get.data/042.jpg" />
 <form method="post" enctype="multipart/form-data" action="index.php?url=image/upload">
  <legend>Image Uploader</legend>
  <label>Local File</label>

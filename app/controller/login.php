@@ -30,11 +30,11 @@ class LoginController extends Controller {
   }
 
   function getOpenIDURL() {
-    if (empty($_POST['openid_identifier'])) {
+    if (empty($_REQUEST['openid_identifier'])) {
         $this->displayError("Expected an OpenID URL.");
     }
 
-    return $_POST['openid_identifier'];
+    return $_REQUEST['openid_identifier'];
   }
 
   function &getStore() {
