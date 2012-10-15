@@ -17,6 +17,6 @@ db_url="http://$DB_HOST:$DB_PORT/$DB_NAME/"
 # Create Database
 curl $auth -X PUT $db_url
 curl $auth -d "@$DIR/login-design.json" -X PUT "${db_url}_design/login"
-curl $auth -d "@$DIR/login-design.json" -X PUT "${db_url}_design/property"
+curl $auth -d "@$DIR/property-design.json" -X PUT "${db_url}_design/property"
 
 curl $db_url
