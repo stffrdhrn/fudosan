@@ -11,7 +11,7 @@
   <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="navbar-inner">
      <div class="container-fluid">
-      <a class="brand" href="index.php">Bassai</a>
+      <a class="brand" href="index.php">Sabaai</a>
       <ul class="nav">
 <?php if (isset($login)) { ?>
         <li><a href="index.php?url=property/listall/<?php echo urlencode($login['_id'])?>">Properties</a>
