@@ -10,12 +10,14 @@ class CouchDB {
     $this->port = $port;
 
     $this->headers = array();
-    $this->headers['Host'] = $this->host;
+    $this->headers['Host'] = $this->host.':'.$this->port;
+    $this->headers['User-Agent'] = 'php-couchdb-client/1.0 (shorne)';
     if($user) {
       $this->headers['Authorization'] = 'Basic ' . base64_encode($user.':'.$password);
     }
   }
-  
+
+
   function send($method, $url, $post_data = NULL) {
     $s = fsockopen($this->host, $this->port, $errno, $errstr); 
     if(!$s) {
@@ -47,12 +49,38 @@ class CouchDB {
     while(!feof($s)) {
       $response .= fgets($s);
     }
+    fclose($s);
     if($this->debug) {
       echo "<label>response</label><pre>$response</pre>";
     }
 
+
     list($headers, $body) = explode("\r\n\r\n", $response); 
     return json_decode($body, true);
+   
+  }
+
+  function put_file($url, $file) {
+    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+    $content_type = finfo_file($finfo, $file);
+    finfo_close($finfo);
+
+    $content_length = filesize($file);
+
+    $s = curl_init();
+    curl_setopt($s,CURLOPT_URL,'http://'.$this->host.':'.$this->port.$url);
+    curl_setopt($s,CURLOPT_PUT,TRUE);
+    curl_setopt($s,CURLOPT_HTTPHEADER,array('Content-Type: '.$content_type));
+    curl_setopt($s,CURLOPT_RETURNTRANSFER,true); 
+   
+    $handle = fopen($file, 'r'); 
+    curl_setopt($s,CURLOPT_INFILE, $handle);
+    curl_setopt($s,CURLOPT_INFILESIZE, $content_length);
+
+    $response = curl_exec($s);
+    curl_close($s);
+    fclose($handle);
+    return json_decode($response, true);
   }
 
   function select_all() {
@@ -111,35 +139,26 @@ class CouchDB {
   }
  
   function save_file($id, $file_loc) {
-    $finfo = finfo_open(FILEINFO_MIME_TYPE);
-    $content_type = finfo_file($finfo, $file_loc);
-    finfo_close($finfo);
-
-    $content_length = filesize($file_loc);
-    $bindata = fread(fopen($file_loc, "r"), $content_length);
-
-    $this->headers['Content-Type'] = $content_type;
-    $this->headers['Content-Length'] = $content_length;
 
     $id = urlencode($id);
     $url =  '/'.$this->database.'/'.$this->table.'/'.$id;
 
     $doc = $this->send('GET','/'.$this->database.'/'.$this->table);
-    if ($doc && $doc['_rev']) {
+    if ($doc && isset($doc['_rev'])) {
       $url .= '?rev='.$doc['_rev'];
     }
-    return $this->send('PUT',$url,$bindata);
+    return $this->put_file($url,$file_loc);
   }
 
   function select_attachment($id) {
-    $id = urlencode($id);
+    $url_id = urlencode($id);
     $url =  '/'.$this->database.'/'.$this->table;
     $docs = $this->send('GET', $url);
     $attachment = null;
     if($docs && isset($docs['_attachments'][$id])) {
       $attachment = array();
       $attachment['content_type'] = $docs['_attachments'][$id]['content_type'];
-      $attachment['data'] = file_get_contents("http://".$this->host.":".$this->port.$url.'/'.$id);
+      $attachment['data'] = file_get_contents("http://".$this->host.":".$this->port.$url.'/'.$url_id);
     }
     return $attachment;
   }
