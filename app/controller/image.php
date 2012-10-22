@@ -6,6 +6,13 @@ class ImageController extends Controller {
     if($_FILES && is_uploaded_file($_FILES['upload']['tmp_name'])) {
       $tmp_pic = $_FILES['upload']['tmp_name'];
       $name = $_FILES['upload']['name'];
+
+      $tmb = tempnam('', 'img');
+      $image = new Imagick($tmp_pic);
+      $image->thumbnailImage(400, 0);
+      $image->writeImage($tmb);
+
+      $res = $this->Image->save_file('tmb.'.$name, $tmb);
       $res = $this->Image->save_file($name, $tmp_pic);
       if (!$res) {
         $this->set('error', "No result from db");

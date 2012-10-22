@@ -1,5 +1,5 @@
 <div class="image-decorator">
-  <img id="resizable" src="index.php?url=image/get.data/<?php echo $id ?>" alt="hi" height="854" width="480"  />
+  <img id="resizable" src="index.php?url=image/get.data/<?php echo $id ?>" alt="resizee" />
 </div>
 
 <form action="crop.php" method="post" onsubmit="return validateForm();">
