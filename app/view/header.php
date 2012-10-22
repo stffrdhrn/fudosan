@@ -6,6 +6,9 @@
     <meta language="English"/>
     <link href="css/bassai.css" rel="stylesheet">
     <link href="css/bootstrap.css" rel="stylesheet">
+<?php foreach ($jsplugins as $jsplugin) { ?>
+    <link href="css/<?php echo $jsplugin ?>.css" rel="stylesheet">
+<?php } ?>
   </head>
   <body>
   <div class="navbar navbar-inverse navbar-fixed-top">

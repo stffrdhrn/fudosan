@@ -14,6 +14,7 @@
       if(isset($_SESSION['login'])) {
         $this->set_login($_SESSION['login']);
       }
+      $this->template->set('jsplugins', array());
     }
 
     function set_login($loginid) {

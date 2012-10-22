@@ -21,4 +21,10 @@ class ImageController extends Controller {
     $model = $this->Image->select_attachment($id);
     $this->set('model', $model);
   }
+
+  function resize($id) {
+    $this->set('title', "Image resize");
+    $this->set('id', $id);
+    $this->set('jsplugins', array('imagecrop'));
+  }
 } 
