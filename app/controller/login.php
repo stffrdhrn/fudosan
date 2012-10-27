@@ -25,8 +25,7 @@ function getTrustRoot() {
 class LoginController extends Controller {
   function displayError($message) {
     $this->set('error', $message);
-    $this->redirect('start');
-    exit(0);
+    $this->action('start');
   }
 
   function getOpenIDURL() {
@@ -110,7 +109,6 @@ class LoginController extends Controller {
         } else {
             $this->set('form', $form_html);
             $this->set('title', 'Redirecting');
-            $this->redirect('redirect');
         }
     }
   }
@@ -176,8 +174,7 @@ class LoginController extends Controller {
     $login = $this->set_login($openid);
     if (!$login) {
       # No login in the DB yet, we need to create a profile
-      $this->edit($openid);
-      $this->redirect('edit');
+      $this->action('edit', $openid);
     } else {
       $this->set('title', "Welcome ".$login['name']);
       $this->set('model', $login);
@@ -211,8 +208,7 @@ class LoginController extends Controller {
     if ($id == $_SESSION['login']) { 
       $this->set_login($id);
     }
-    $this->edit($id);
-    $this->redirect('edit');
+    $this->action('edit', $id);
 
     return $id;
 
@@ -227,6 +223,6 @@ class LoginController extends Controller {
     $this->set_login(null);
     $this->set('title', "Logout Complete");
     $this->set('success', "Logout Complete");
-    $this->redirect('start');
+    $this->action('start');
   }
 }

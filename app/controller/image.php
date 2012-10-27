@@ -9,7 +9,7 @@ class ImageController extends Controller {
 
       $tmb = tempnam('', 'img');
       $image = new Imagick($tmp_pic);
-      $image->thumbnailImage(400, 0);
+      $image->thumbnailImage(500, 400, true);
       $image->writeImage($tmb);
 
       $res = $this->Image->save_file('tmb.'.$name, $tmb);
@@ -19,7 +19,7 @@ class ImageController extends Controller {
       } else if (isset($res['error'])) {
         $this->set('error', $res['reason']);
       } else {
-        $this->set('success', "uploaded $name");
+	$this->action('resize', $name);
       }
     }
   }
@@ -33,5 +33,26 @@ class ImageController extends Controller {
     $this->set('title', "Image resize");
     $this->set('id', $id);
     $this->set('jsplugins', array('imagecrop'));
+  }
+
+  function crop($id) {
+    $model = $this->Image->select_attachment($id);
+    $picture = new Imagick();
+    $picture->readImageBlob($model['data']);
+    $picture->cropImage($_POST['width'], $_POST['height'], $_POST['x'], $_POST['y']);
+
+
+    $tmp = tempnam('','img');
+    $picture->writeImage($tmp);
+    $res = $this->Image->save_file($id, $tmp);
+    if (!$res) {
+      $this->set('error', "No result from db");
+    } else if (isset($res['error'])) {
+      $this->set('error', $res['reason']);
+    } else {
+      $_SESSION['image_return']['image'] = $id;
+      $return = $_SESSION['image_return'];
+      $this->redirect($return['controller'], $return['action'], $return['id']);
+    }
   }
 } 

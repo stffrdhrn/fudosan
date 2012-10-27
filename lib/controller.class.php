@@ -5,16 +5,17 @@
     function __construct($action, $content_type = "html") {
       $model = get_class($this);
       $model = trim_last($model, 'Controller');
-      $view = strtolower($model);
       
+      $this->controller = strtolower($model); 
       $this->$model =& new $model;
       $this->Login =& new Login();
-      $this->template =& new Template($view,$action, $content_type);
+      $this->template =& new Template($this->controller, $action, $content_type);
 
       if(isset($_SESSION['login'])) {
         $this->set_login($_SESSION['login']);
       }
       $this->template->set('jsplugins', array());
+      $this->redirected = false;
     }
 
     function set_login($loginid) {
@@ -30,8 +31,14 @@
       return $this->login;
     }
 
-    function redirect($action) {
-      $this->template->redirect($action);
+    function redirect($controller, $action, $id = null) {
+      $this->redirected = true;
+      header('Location: '. route($controller, $action, $id));
+    }
+
+
+    function action($action, $id = null) {
+      header('Location: '. route($this->controller, $action, $id));
     }
 
     function set($key,$value) {
@@ -39,6 +46,8 @@
     }
     
     function __destruct() {
-      $this->template->render();
+      if(!$this->redirected) {
+        $this->template->render();
+      }
     }
  }

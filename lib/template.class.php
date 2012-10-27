@@ -11,14 +11,6 @@ class Template {
     $this->content_type = $content_type;
   }
 
-  // Redirect changes the action for this template
-  // This is used when you want to change the vew in the 
-  // controller .i.e. in the save action you want the view 
-  // to just show the get view
-  function redirect($action) {
-    $this->action = $action;
-  }
-
   function render() {
     if ($this->content_type == "json") {
       $this->render_json();

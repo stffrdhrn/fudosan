@@ -154,11 +154,17 @@ class Auth_OpenID_CouchDBStore {
     {
       $assoc = $this->association->select($server_url);
       if(isset($assoc)) { 
-        return new Auth_OpenID_Association($assoc['handle'],
+        $assoc = new Auth_OpenID_Association($assoc['handle'],
                                             base64_decode($assoc['secret']),
                                             $assoc['issued'],
                                             $assoc['lifetime'],
                                             $assoc['assoc_type']);
+        if ($assoc->getExpiresIn() <= 0) {
+	  $this->association->delete($server_url);
+          return null;
+	} else {
+          return $assoc;
+	}
       } else {
         return null;
       }

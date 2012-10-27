@@ -1,5 +1,14 @@
 <?php
 
+function route($controller, $action, $id = null) {
+  $url = 'index.php?url='.$controller.'/'.$action;
+
+  if($id != null) {
+    $url .= '/'.$id;
+  }
+  return $url;
+}
+
 function gravatar($model, $size=128) {
   if ($model['email']) { 
     $hash = md5( strtolower( trim( $model['email'] ) ) );

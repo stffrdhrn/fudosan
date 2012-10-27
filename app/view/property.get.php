@@ -8,7 +8,7 @@
     </table>
 
     <h4>Clients Viewing Property</h4>
-    
+
     <div id="propertyclients-container" class="droppable">
     <div id="propertyclients">
     <?php if ($clients) { ?>
@@ -27,9 +27,28 @@
     </div>
     </div>
 
+    <h4>Images</h4>
+<div id="images" class="carousel slide">
+<div class="carousel-inner">
+<?php 
+  $first = true;
+
+  foreach ($model['images'] as $image) { ?>
+  <div class="item<? if($first) { echo " active"; } ?>"> 
+    <img alt='image' src='<?php echo route('image', 'get.data', $image)?>' />
+  </div> 
+<?php 
+   $first = false;
+  } ?>
+</div>
+  <a class="carousel-control left" href="#images" data-slide="prev">&lsaquo;</a>
+  <a class="carousel-control right" href="#images" data-slide="next">&rsaquo;</a>
+</div>
+
     <div class="form-actions">
       <a class="btn btn-primary" href="index.php?url=property/edit/<?php echo $model['_id'] ?>" ><i class="icon-edit icon-white"></i> Edit</a>
       <a class="btn" href="index.php?url=property/listall">Back to List</a>
+      <a class="btn" href="<?php echo route('image', 'upload') ?>">Attach Image</a>
     </div>
   </div>
 
@@ -43,6 +62,8 @@
 </div>
 <script>
   function jquery_ready() {
+    $('.carousel').carousel();
+
     $('#allclients').load('index.php?url=login/listall.body', 
       function(response,status,xhr) {
         $('.draggable').draggable({

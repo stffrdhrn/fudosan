@@ -2,8 +2,23 @@
 class PropertyController extends Controller {
   function get($id) {
     $this->set('title', "Viewing property $id");
-    $this->set('model', $this->Property->select($id));
     $this->set('clients', $this->Property->select_clause_array($id, "by_id_logins", true));
+
+    $model = $this->Property->select($id);
+    if(isset($_SESSION['image_return']['image'])) {
+
+      $image_id = $_SESSION['image_return']['image'];
+      if(isset($model['images'])) {
+          $model['images'][] = $image_id;
+      } else {
+          $model['images'] = array($image_id);
+      }
+      $this->Property->save($id, $model);
+    }
+    $_SESSION['image_return'] = array('controller' => $this->controller, 
+                                      'action' => 'get',
+                                      'id' => $id);
+    $this->set('model', $model);
   }
 
   function listall($id = NULL) {
@@ -17,12 +32,13 @@ class PropertyController extends Controller {
   }
 
   function edit($id = NULL) {
-     if ($id == NULL) {
+    if ($id == NULL) {
       $this->set('title', "Creating new Property");
       $this->set('model', array());
     } else {
+      $model = $this->Property->select($id);
       $this->set('title', "Editing property $id");
-      $this->set('model', $this->Property->select($id));
+      $this->set('model', $model);
     }
   }
 
@@ -40,8 +56,7 @@ class PropertyController extends Controller {
 
 #    var_dump($result);
 
-    $this->get($id);
-    $this->redirect('get');
+    $this->action('get', $id);
 
     return $id;
   }

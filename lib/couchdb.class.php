@@ -137,7 +137,12 @@ class CouchDB {
 
    return $this->send('PUT', '/'.$this->database.'/'.$id, json_encode($doc));
   }
- 
+
+  function delete($id) {
+    $id = urlencode($id);
+    return $this->send('DELETE', '/'.$this->database.'/'.$id);
+  }
+
   function save_file($id, $file_loc) {
 
     $id = urlencode($id);
