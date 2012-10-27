@@ -7,12 +7,6 @@ class ImageController extends Controller {
       $tmp_pic = $_FILES['upload']['tmp_name'];
       $name = $_FILES['upload']['name'];
 
-      $tmb = tempnam('', 'img');
-      $image = new Imagick($tmp_pic);
-      $image->thumbnailImage(500, 400, true);
-      $image->writeImage($tmb);
-
-      $res = $this->Image->save_file('tmb.'.$name, $tmb);
       $res = $this->Image->save_file($name, $tmp_pic);
       if (!$res) {
         $this->set('error', "No result from db");
@@ -37,13 +31,14 @@ class ImageController extends Controller {
 
   function crop($id) {
     $model = $this->Image->select_attachment($id);
-    $picture = new Imagick();
-    $picture->readImageBlob($model['data']);
-    $picture->cropImage($_POST['width'], $_POST['height'], $_POST['x'], $_POST['y']);
+    $image = new Imagick();
+    $image->readImageBlob($model['data']);
+    $image->cropImage($_POST['width'], $_POST['height'], $_POST['x'], $_POST['y']);
+    $image->thumbnailImage(640, 480, true);
 
 
     $tmp = tempnam('','img');
-    $picture->writeImage($tmp);
+    $image->writeImage($tmp);
     $res = $this->Image->save_file($id, $tmp);
     if (!$res) {
       $this->set('error', "No result from db");

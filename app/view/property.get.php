@@ -28,27 +28,29 @@
     </div>
 
     <h4>Images</h4>
-<div id="images" class="carousel slide">
-<div class="carousel-inner">
-<?php 
-  $first = true;
+    <?php if (isset($model['images'])) { ?>
+    <div id="images" class="carousel slide">
+      <div class="carousel-inner">
+      <?php 
+      $first = true;
+      foreach ($model['images'] as $image) { ?>
+     
+      <div class="item<? if($first) { echo " active"; } ?>"> 
+        <img alt='image' src='<?php echo route('image', 'get.data', $image)?>' />
+      </div> 
+      <?php $first = false; } ?>
 
-  foreach ($model['images'] as $image) { ?>
-  <div class="item<? if($first) { echo " active"; } ?>"> 
-    <img alt='image' src='<?php echo route('image', 'get.data', $image)?>' />
-  </div> 
-<?php 
-   $first = false;
-  } ?>
-</div>
-  <a class="carousel-control left" href="#images" data-slide="prev">&lsaquo;</a>
-  <a class="carousel-control right" href="#images" data-slide="next">&rsaquo;</a>
-</div>
-
+      </div>
+      <a class="carousel-control left" href="#images" data-slide="prev">&lsaquo;</a>
+      <a class="carousel-control right" href="#images" data-slide="next">&rsaquo;</a>
+    </div>
+    <?php } else { ?>
+      No images use <strong>Attach Image</strong> button below.
+    <?php } ?>
     <div class="form-actions">
       <a class="btn btn-primary" href="index.php?url=property/edit/<?php echo $model['_id'] ?>" ><i class="icon-edit icon-white"></i> Edit</a>
       <a class="btn" href="index.php?url=property/listall">Back to List</a>
-      <a class="btn" href="<?php echo route('image', 'upload') ?>">Attach Image</a>
+      <a class="btn" href="<?php echo route('image', 'upload') ?>"><i class="icon-picture"></i> Attach Image</a>
     </div>
   </div>
 
