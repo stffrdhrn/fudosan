@@ -3,6 +3,10 @@ body {
   padding-bottom: 40px;
 }
 
+.text {
+  padding: 14px;
+}
+
 .droppable {
   padding: 14px;
 }
@@ -12,6 +16,18 @@ body {
   border: 2px dotted gray;
 }
 
+/*
+.logo {
+  width: 211px;
+  height: 40px;
+  display: block;
+  background-image: url('../img/sabaai.png');
+}
+
+.logo:hover {
+  background-image: url('../img/sabaai-hover.png');
+}
+*/
 .center {
   text-align: center; 
 }

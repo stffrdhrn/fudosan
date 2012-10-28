@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><?php echo $title ?></title>
+    <title>Sabaai : <?php echo $title ?></title>
     <meta charset="utf-8"/>
     <meta language="English"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="css/bassai.css" rel="stylesheet">
     <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
 <?php foreach ($jsplugins as $jsplugin) { ?>
     <link href="css/<?php echo $jsplugin ?>.css" rel="stylesheet">
 <?php } ?>
@@ -13,18 +15,27 @@
   <body>
   <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="navbar-inner">
-     <div class="container-fluid">
-      <a class="brand" href="index.php">Sabaai</a>
-      <ul class="nav">
+
+     <div class="container">
+       <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+       </button>
+       <a class="brand logo" href="index.php" title="Sabaai">Sabaai</a>
+       <div class="nav-collapse collapse">
+        <ul class="nav">
 <?php if (isset($login)) { ?>
-        <li><a href="index.php?url=property/listall/<?php echo urlencode($login['_id'])?>">Properties</a>
-        <li><a href="index.php?url=login/edit/<?php echo urlencode($login['_id'])?>">Preferences</a>
-        <li><a href="index.php?url=login/logout">Logout</a>
+        <li class="<?php if($this->view == 'property') {echo 'active' ; } ?>"><a href="<?php echo route('property', 'listall', urlencode($login['_id'])) ?>">Properties</a>
+        <li class="<?php if($this->view == 'login') {echo 'active' ; } ?>" ><a href="<?php echo route('login','edit',  urlencode($login['_id']))?>">Preferences</a>
+        <li class=""><a href="<?php echo route('login', 'logout') ?>">Logout</a>
 <?php } else { ?>
-        <li><a href="index.php?url=login/start">Login</a>
+        <li class="<?php if($this->view == 'login') {echo 'active' ; } ?>"><a href="<?php echo route('login', 'start') ?>">Login</a>
 <?php } ?>
-      </ul>
-    </div>
+        </ul>
+       </div>
+     </div>
+
    </div>
   </div>
 <?php if (isset($error)) { ?>

@@ -1,5 +1,5 @@
- <div class="container-fluid">
-  <div class="row-fluid">
+ <div class="container">
+  <div class="row">
   <div id="property" class="span9">
     <h4>Property</h4>
     <table class="table">
@@ -10,50 +10,50 @@
     <h4>Clients Viewing Property</h4>
 
     <div id="propertyclients-container" class="droppable">
-    <div id="propertyclients">
-    <?php if ($clients) { ?>
-    <table class="table">
-      <?php  foreach ($clients as $client) { ?>
-      <tr>
-         <td width="48px"><?php echo gravatar($client, 32)  ?>
-         <td><?php echo $client['name']  ?>
-         <td><a href="javascript:unlink_client('<?php echo $model['_id']."','".$client['_id'] ?>')"><i class="icon-remove"></i></a>
-      </tr>
-      <?php } ?>
-    </table>
-    <?php } else {  ?>
-      No clients viewing
-    <?php } ?>
-    </div>
+      <div id="propertyclients">
+        <?php if ($clients) { ?>
+        <table class="table">
+        <?php  foreach ($clients as $client) { ?>
+           <tr>
+             <td width="48px"><?php echo gravatar($client, 32)  ?>
+             <td><?php echo $client['name']  ?>
+             <td><a href="javascript:unlink_client('<?php echo $model['_id']."','".$client['_id'] ?>')"><i class="icon-remove"></i></a>
+           </tr>
+        <?php } ?>
+        </table>
+        <?php } else {  ?>
+        No clients viewing
+        <?php } ?>
+      </div>
     </div>
 
     <h4>Images</h4>
-    <div id="images-container">
     <?php if (isset($model['images']) && !empty($model['images'])) { ?>
-    <div id="images" class="carousel slide">
-      <div class="carousel-inner">
-      <?php 
-      $first = true;
-      foreach ($model['images'] as $image) { ?>
+    <div id="images-container" class="row">
+      <div id="images" class="carousel slide span8">
+        <div class="carousel-inner">
+        <?php 
+        $first = true;
+        foreach ($model['images'] as $image) { ?>
      
-      <div class="item<? if($first) { echo " active"; } ?>"> 
-        <img alt='image' src='<?php echo route('image', 'get.data', $image)?>' />
-        <div class="carousel-caption">
-	<a href="javascript:unlink_image('<?php echo $model['_id']."','".$image ?>')"><i class="icon-remove icon-white"></i>Remove Image</a>
-	</div>
-      </div> 
-      <?php $first = false; } ?>
+          <div class="item<? if($first) { echo " active"; } ?>"> 
+            <img alt='image' src='<?php echo route('image', 'get.data', $image)?>' />
+            <div class="carousel-caption">
+	      <a href="javascript:unlink_image('<?php echo $model['_id']."','".$image ?>')"><i class="icon-remove icon-white"></i>Remove Image</a>
+	    </div>
+          </div> 
+        <?php $first = false; } ?>
 
+        </div>
+        <a class="carousel-control left" href="#images" data-slide="prev">&lsaquo;</a>
+        <a class="carousel-control right" href="#images" data-slide="next">&rsaquo;</a>
       </div>
-      <a class="carousel-control left" href="#images" data-slide="prev">&lsaquo;</a>
-      <a class="carousel-control right" href="#images" data-slide="next">&rsaquo;</a>
     </div>
     <?php } else { ?>
-    <div id="images">
-     No images use <strong>Attach Image</strong> button below.
+    <div class="text">
+       No images use <strong>Attach Image</strong> button below.
     </div>
     <?php } ?>
-    </div>
 
     <div class="form-actions">
       <a class="btn btn-primary" href="index.php?url=property/edit/<?php echo $model['_id'] ?>" ><i class="icon-edit icon-white"></i> Edit</a>
