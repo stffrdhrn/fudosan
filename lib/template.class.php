@@ -82,4 +82,12 @@ class Template {
     $this->variables[$key] = $value;    
   }
 
+  function get($key) {
+    if(isset($this->variables[$key])) {
+      return $this->variables[$key];
+    } else {
+      return null;
+    }
+      
+  }
 }

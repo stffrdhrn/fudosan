@@ -162,10 +162,13 @@ class LoginController extends Controller {
             $success .= "  Your fullname is '".htmlentities($sreg['fullname']).
                 "'.";
         }
+    } else {
+      $msg = "Unknown response " . $response->status . " OpenID = " . $response->getDisplayIdentifier();
     }
 
     if(isset($msg)) {
       $this->displayError($msg);
+      return;
     }
     if($success) {
       $this->set('success', $success);

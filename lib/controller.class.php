@@ -15,6 +15,11 @@
         $this->set_login($_SESSION['login']);
       }
       $this->template->set('jsplugins', array());
+      $this->template->set('error', $_SESSION['error']);
+      $this->template->set('success', $_SESSION['success']);
+      unset($_SESSION['error']);
+      unset($_SESSION['success']);
+
       $this->redirected = false;
     }
 
@@ -32,13 +37,16 @@
     }
 
     function redirect($controller, $action, $id = null) {
+      $_SESSION['error'] = $this->template->get('error');
+      $_SESSION['success'] = $this->template->get('success');
+
       $this->redirected = true;
       header('Location: '. route($controller, $action, $id));
     }
 
 
     function action($action, $id = null) {
-      header('Location: '. route($this->controller, $action, $id));
+      $this->redirect($this->controller, $action, $id);
     }
 
     function set($key,$value) {
