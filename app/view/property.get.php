@@ -17,7 +17,7 @@
       <tr>
          <td width="48px"><?php echo gravatar($client, 32)  ?>
          <td><?php echo $client['name']  ?>
-         <td><a class="btn btn-danger btn-mini" href="javascript:unlink('<?php echo $model['_id']."','".$client['_id'] ?>')">x</a>
+         <td><a href="javascript:unlink_client('<?php echo $model['_id']."','".$client['_id'] ?>')"><i class="icon-remove"></i></a>
       </tr>
       <?php } ?>
     </table>
@@ -28,7 +28,8 @@
     </div>
 
     <h4>Images</h4>
-    <?php if (isset($model['images'])) { ?>
+    <div id="images-container">
+    <?php if (isset($model['images']) && !empty($model['images'])) { ?>
     <div id="images" class="carousel slide">
       <div class="carousel-inner">
       <?php 
@@ -37,6 +38,9 @@
      
       <div class="item<? if($first) { echo " active"; } ?>"> 
         <img alt='image' src='<?php echo route('image', 'get.data', $image)?>' />
+        <div class="carousel-caption">
+	<a href="javascript:unlink_image('<?php echo $model['_id']."','".$image ?>')"><i class="icon-remove icon-white"></i>Remove Image</a>
+	</div>
       </div> 
       <?php $first = false; } ?>
 
@@ -45,8 +49,12 @@
       <a class="carousel-control right" href="#images" data-slide="next">&rsaquo;</a>
     </div>
     <?php } else { ?>
-      No images use <strong>Attach Image</strong> button below.
+    <div id="images">
+     No images use <strong>Attach Image</strong> button below.
+    </div>
     <?php } ?>
+    </div>
+
     <div class="form-actions">
       <a class="btn btn-primary" href="index.php?url=property/edit/<?php echo $model['_id'] ?>" ><i class="icon-edit icon-white"></i> Edit</a>
       <a class="btn" href="index.php?url=property/listall">Back to List</a>
@@ -90,15 +98,27 @@
     });  
   }
 
-  function unlink(propertyid, loginid) {
-    var unlinkurl = 'index.php?url=property/unlink.json/' + propertyid; 
+  function unlink_client(propertyid, loginid) {
+    var unlinkurl = 'index.php?url=property/unlink_client.json/' + propertyid; 
     $.get(unlinkurl, {login: loginid}, function(data) {
       reload_property();
+    }, 'json');
+  }
+
+  function unlink_image(propertyid, imageid) {
+    var unlinkurl = 'index.php?url=property/unlink_image.json/' + propertyid; 
+    $.get(unlinkurl, {image: imageid}, function(data) {
+      reload_image();
     }, 'json');
   }
 
   function reload_property() {
     var reloadurl = 'index.php?url=property/get.body/<?php echo $model['_id']?> #propertyclients';
     $('#propertyclients-container').load(reloadurl);
+  }
+
+  function reload_image() {
+    var reloadurl = 'index.php?url=property/get.body/<?php echo $model['_id']?> #images';
+    $('#images-container').load(reloadurl);
   }
 </script>

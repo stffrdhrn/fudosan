@@ -20,6 +20,16 @@ class ImageController extends Controller {
 
   function get($id) {
     $model = $this->Image->select_attachment($id);
+    if(isset($_GET['w']) && isset($_GET['h'])) {
+      $image = new Imagick();
+      $image->readImageBlob($model['data']);
+
+      $w = $_GET['w'];
+      $h = $_GET['h'];
+      $image->thumbnailImage($w, $h, true);
+      $model['data'] = $image->getImageBlob();
+    }
+
     $this->set('model', $model);
   }
 
@@ -33,7 +43,23 @@ class ImageController extends Controller {
     $model = $this->Image->select_attachment($id);
     $image = new Imagick();
     $image->readImageBlob($model['data']);
-    $image->cropImage($_POST['width'], $_POST['height'], $_POST['x'], $_POST['y']);
+
+    $image_aspect = $image->getImageWidth() / $image->getImageHeight();
+    $img_width = $_POST['img_width'];
+    $img_height = $_POST['img_height'];
+    if($image_aspect > 1) {
+      $img_height = $img_width / $image_aspect;
+    } else {
+      $img_width = $img_height * $image_aspect;
+    }
+
+    $x_ratio = $image->getImageWidth() / $img_width;
+    $y_ratio = $image->getImageHeight() / $img_height;
+
+    $image->cropImage($_POST['width'] * $x_ratio, 
+	              $_POST['height'] * $y_ratio, 
+		      $_POST['x'] * $x_ratio, 
+		      $_POST['y'] * $y_ratio);
     $image->thumbnailImage(640, 480, true);
 
 

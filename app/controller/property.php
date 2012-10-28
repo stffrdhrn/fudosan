@@ -82,7 +82,7 @@ class PropertyController extends Controller {
     $this->set('model', $result);
   }
 
-  function unlink($id) {
+  function unlink_client($id) {
     $property = $this->Property->select($id);
     $loginid = $_GET['login'];
 
@@ -96,5 +96,19 @@ class PropertyController extends Controller {
     $this->set('model', $result);
   }
 
+  function unlink_image($id) {
+    $property = $this->Property->select($id);
+    $imageid = $_GET['image'];
+
+    $result = array();
+    if ($property && $imageid) {
+      $images = array_diff($property['images'], array($imageid));
+      $property['images'] = $images;
+      $result = $this->Property->save($id, $property);
+    } else {
+      $result['error'] = "Property doesnt exist or imageid not provided";
+    }
+    $this->set('model', $result);
+  }
 
 }
