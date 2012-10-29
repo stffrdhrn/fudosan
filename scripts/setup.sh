@@ -16,7 +16,13 @@ db_url="http://$DB_HOST:$DB_PORT/$DB_NAME/"
 
 # Create Database
 curl $auth -X PUT $db_url
-curl $auth -d "@$DIR/login-design.json" -X PUT "${db_url}_design/login"
-curl $auth -d "@$DIR/property-design.json" -X PUT "${db_url}_design/property"
+
+for design in login property association ; do
+  curl $auth -d "@$DIR/${design}-design.json" -X PUT "${db_url}_design/${design}"
+  # to backup database design uncomment this line
+  # curl $auth "${db_url}_design/${design}" | sed -e 's/,"_rev":".\{34\}"//' > $DIR/${design}-design.json 
+done
 
 curl $db_url
+
+
