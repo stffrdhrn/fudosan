@@ -21,14 +21,15 @@ class PropertyController extends Controller {
     $this->set('model', $model);
   }
 
-  function listall($id = NULL) {
-    if($id) {
-      $this->set('title', "Listing your properties");
-      $this->set('model', $this->Property->select_clause_array($id, 'by_login'));
-    } else {
-      $this->set('title', "Listing all properties");
-      $this->set('model', $this->Property->select_all());
-    }
+  function listall() {
+    $this->set('title', "Manage properties");
+    $this->set('model', $this->Property->select_all());
+  }
+
+
+  function listmine($id) {
+    $this->set('title', "My Properties");
+    $this->set('model', $this->Property->select_clause_array($id, 'by_login'));
   }
 
   function edit($id = NULL) {

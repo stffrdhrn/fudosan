@@ -1,15 +1,14 @@
-<table class="table table-hover">
-<thead>
-<tr>
- <th>Name</th>
-</tr>
-</thead>
-<tbody>
-<?php foreach ($model as $property) { ?>
-<tr>
-  <td><a href="index.php?url=property/get/<?php echo $property['_id']?>"><?php echo $property['name'] ?></a></td>
-</tr>
+<h4>Properties</h4>
+<p>List of properties I am managing
+<div id="allproperties">
+<?php foreach ($model as $item) { ?>
+<div id="<?php echo $item['_id'] ?>" class="draggable">
+ <table class="table table-hover">
+  <tr>
+    <td><a href="<?php echo route('property', 'get', $item['_id'])?>"><?php echo $item['name'] ?></a>
+  </tr>
+ </table>
+</div>
 <?php } ?>
-</tbody>
-</table>
-<a class="btn" href="index.php?url=property/edit">Create</a>
+</div>
+<a class="btn" href="<?php echo route('property','edit') ?>">Create</a>

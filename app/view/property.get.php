@@ -56,8 +56,7 @@
     <?php } ?>
 
     <div class="form-actions">
-      <a class="btn btn-primary" href="index.php?url=property/edit/<?php echo $model['_id'] ?>" ><i class="icon-edit icon-white"></i> Edit</a>
-      <a class="btn" href="index.php?url=property/listall">Back to List</a>
+      <a class="btn btn-primary" href="<?php echo route('property', 'edit', $model['_id']) ?>" ><i class="icon-edit icon-white"></i> Edit</a>
       <a class="btn" href="<?php echo route('image', 'upload') ?>"><i class="icon-picture"></i> Attach Image</a>
     </div>
   </div>
@@ -74,7 +73,7 @@
   function jquery_ready() {
     $('.carousel').carousel();
 
-    $('#allclients').load('index.php?url=login/listall.body', 
+    $('#allclients').load('index.php?url=login/listall.body #allclients', 
       function(response,status,xhr) {
         $('.draggable').draggable({
           revert: true,

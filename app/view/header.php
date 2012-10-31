@@ -26,8 +26,10 @@
        <div class="nav-collapse collapse">
         <ul class="nav">
 <?php if (isset($login)) { ?>
-        <li class="<?php if($this->view == 'property') {echo 'active' ; } ?>"><a href="<?php echo route('property', 'listall', urlencode($login['_id'])) ?>">Properties</a>
-        <li class="<?php if($this->view == 'login') {echo 'active' ; } ?>" ><a href="<?php echo route('login','edit',  urlencode($login['_id']))?>">Preferences</a>
+        <li class="<?php if($this->view == 'property' && $this->action == 'listall') {echo 'active' ; } ?>"><a href="<?php echo route('property', 'listall') ?>">Manage Properties</a>
+        <li class="<?php if($this->view == 'property'&& $this->action == 'listmine') {echo 'active' ; } ?>"><a href="<?php echo route('property', 'listmine', urlencode($login['_id'])) ?>">My Properties</a>
+        <li class="<?php if($this->view == 'login' && $this->action == 'listall') {echo 'active' ; } ?>"><a href="<?php echo route('login', 'listall') ?>">My Clients</a>
+        <li class="<?php if($this->view == 'login' && $this->action == 'edit') {echo 'active' ; } ?>" ><a href="<?php echo route('login','edit',  urlencode($login['_id']))?>">My Preferences</a>
         <li class=""><a href="<?php echo route('login', 'logout') ?>">Logout</a>
 <?php } else { ?>
         <li class="<?php if($this->view == 'login') {echo 'active' ; } ?>"><a href="<?php echo route('login', 'start') ?>">Login</a>

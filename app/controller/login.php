@@ -23,6 +23,12 @@ function getTrustRoot() {
 
 
 class LoginController extends Controller {
+  function __construct($action, $content_type = "html") {
+    parent::__construct($action, $content_type);
+
+    $this->Property =& new Property();
+  }
+   
   function displayError($message) {
     $this->set('error', $message);
     $this->action('start');
@@ -195,6 +201,13 @@ class LoginController extends Controller {
       $this->set('model', $login); 
     }
 
+  }
+
+  function get($id) {
+    $login = $this->Login->select($id);
+    $this->set('title', 'Client profile');
+    $this->set('model', $login);
+    $this->set('properties', $this->Property->select_clause_array($id, "by_login"));
   }
 
   function save() {

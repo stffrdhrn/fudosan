@@ -15,10 +15,14 @@
         $this->set_login($_SESSION['login']);
       }
       $this->template->set('jsplugins', array());
-      $this->template->set('error', $_SESSION['error']);
-      $this->template->set('success', $_SESSION['success']);
-      unset($_SESSION['error']);
-      unset($_SESSION['success']);
+      if(isset($_SESSION['error'])) {
+        $this->template->set('error', $_SESSION['error']);
+        unset($_SESSION['error']);
+      }
+      if(isset($_SESSION['success'])) {
+        $this->template->set('success', $_SESSION['success']);
+        unset($_SESSION['success']);
+      }
 
       $this->redirected = false;
     }
