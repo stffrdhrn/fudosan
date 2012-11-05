@@ -22,6 +22,15 @@
         <label>E-Mail</label>
         <input name="email" type="text" value="<?php echo $model['email']  ?>"/>
 
+<?php if($login['role'] == 'admin') { ?>
+        <label>Role</label>
+        <select name="role">
+	  <option value="admin" <?php if($model['role'] == 'admin') { echo 'selected';} ?>>Admin</option>
+	  <option value="manager" <?php if($model['role'] == 'manager') { echo 'selected';} ?>>Property Manager</option>
+	  <option value="user" <?php if($model['role'] == 'user') { echo 'selected';} ?>>User</option>
+        </select>
+<?php } ?>
+
         <div class="form-actions">
           <button type="submit" class="btn btn-primary">Submit</button>
         </div>

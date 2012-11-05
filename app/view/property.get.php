@@ -6,7 +6,7 @@
       <tr><td>Name     <td><?php echo $model['name']  ?></tr>
       <tr><td>Address  <td><?php echo $model['address']  ?></tr>
     </table>
-
+<?php if ($login['role'] != 'user') { ?>
     <h4>Clients Viewing Property</h4>
 
     <div id="propertyclients-container" class="droppable">
@@ -26,6 +26,7 @@
         <?php } ?>
       </div>
     </div>
+<?php } ?>
 
     <h4>Images</h4>
     <?php if (isset($model['images']) && !empty($model['images'])) { ?>
@@ -54,21 +55,24 @@
        No images use <strong>Attach Image</strong> button below.
     </div>
     <?php } ?>
-
+<?php if ($login['role'] != 'user') { ?>
     <div class="form-actions">
       <a class="btn btn-primary" href="<?php echo route('property', 'edit', $model['_id']) ?>" ><i class="icon-edit icon-white"></i> Edit</a>
       <a class="btn" href="<?php echo route('image', 'upload') ?>"><i class="icon-picture"></i> Attach Image</a>
     </div>
+<?php } ?>
   </div>
-
+<?php if ($login['role'] != 'user') { ?>
   <div class="span3">
     <h4>Add clients to property?</h4>
     <div id="allclients">
   
     </div>
   </div>
+<?php } ?>
   </div>
 </div>
+<?php if ($login['role'] != 'user') { ?>
 <script>
   function jquery_ready() {
     $('.carousel').carousel();
@@ -121,3 +125,4 @@
     $('#images-container').load(reloadurl);
   }
 </script>
+<?php } ?>

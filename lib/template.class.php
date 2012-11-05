@@ -1,8 +1,8 @@
 <?php
 class Template {
   protected $variables = array();
-  protected $view;
-  protected $action;  
+  public $view;
+  public $action;  
   protected $content_type;  
 
   function __construct($view,$action,$content_type = "html") {
@@ -88,6 +88,5 @@ class Template {
     } else {
       return null;
     }
-      
   }
 }

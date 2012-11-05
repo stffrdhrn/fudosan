@@ -1,5 +1,8 @@
 <?php
   class Controller {
+    # Variables that will be persisted in session during redirect
+    protected $redirect_messages = array('error', 'success');
+
     protected $template;
 
     function __construct($action, $content_type = "html") {
@@ -14,35 +17,47 @@
       if(isset($_SESSION['login'])) {
         $this->set_login($_SESSION['login']);
       }
-      $this->template->set('jsplugins', array());
-      if(isset($_SESSION['error'])) {
-        $this->template->set('error', $_SESSION['error']);
-        unset($_SESSION['error']);
-      }
-      if(isset($_SESSION['success'])) {
-        $this->template->set('success', $_SESSION['success']);
-        unset($_SESSION['success']);
-      }
+      $this->load_redirect_messages();
 
+      $this->template->set('jsplugins', array());
+      $this->template->set('title', $action);
       $this->redirected = false;
     }
 
+    function save_redirect_messages() {
+      foreach ($this->redirect_messages as $key) {
+        $_SESSION[$key] = $this->template->get($key);
+      }
+    }   
+
+    function load_redirect_messages() {
+      foreach ($this->redirect_messages as $key) {
+        if(isset($_SESSION[$key])) {
+          $this->template->set($key, $_SESSION[$key]);
+          unset($_SESSION[$key]);
+        }
+      }
+    }   
+
     function set_login($loginid) {
       if($loginid) {
-        $_SESSION['login'] = $loginid;
         $this->login = $this->Login->select($loginid);
         $this->template->set('login', $this->login);      
+	
+	$_SESSION['login'] = $loginid;
+	$_SESSION['login_role'] = $this->login['role'];
       } else {
-        $_SESSION['login'] = null;
         $this->login = null;
         $this->template->set('login', null);
+        
+	$_SESSION['login'] = null;
+	$_SESSION['login_role'] = null;
       }
       return $this->login;
     }
 
     function redirect($controller, $action, $id = null) {
-      $_SESSION['error'] = $this->template->get('error');
-      $_SESSION['success'] = $this->template->get('success');
+      $this->save_redirect_messages();
 
       $this->redirected = true;
       header('Location: '. route($controller, $action, $id));

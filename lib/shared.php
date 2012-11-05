@@ -77,6 +77,11 @@ function run() {
   global $url;
   session_start();
 
+  if (!is_authorized($url)) {
+    new NavController('403');
+    return;
+  }
+
   # Parse our 3 part URL
   # Format: controller[/action[.type][/query_string]] 
   # Example: login/get/3
@@ -89,7 +94,7 @@ function run() {
   if ((int)method_exists($controller, $action)) {
     call_user_func_array(array($dispatch,$action),array($query_string));
   } else {
-    /* Hanlde errors */
+    new NavController('404');
   }
 }
 

@@ -212,6 +212,17 @@ class LoginController extends Controller {
 
   function save() {
     $id = $_POST['_id'];
+
+    # get the current role from the session, but default to 'user'
+#    $login_role = 'user';
+#    if(isset($_SESSION['login_role'])) {
+#      $login_role = $_SESSION['login_role'];
+#    }
+    # only allow the posted value to pass through if they are a admin
+#    if ('admin' != $login_role) {
+#      $_POST['role'] = $login_role;
+#    }
+
     $result = $this->Login->save($id, $_POST);
 
     if(isset($result['error'])) {

@@ -25,7 +25,7 @@ require_once 'Auth/OpenID/Nonce.php';
  *
  * @package OpenID
  */
-class Auth_OpenID_CouchDBStore {
+class Auth_OpenID_CouchDBStore extends Auth_OpenID_OpenIDStore {
 
     function Auth_OpenID_CouchDBStore () {
       $this->association = new CouchDB(DB_HOST, DB_PORT);
@@ -64,52 +64,6 @@ class Auth_OpenID_CouchDBStore {
       );
 
       $this->association->save($server_url, $assoc);
-    }
-
-    /*
-     * Remove expired nonces from the store.
-     *
-     * Discards any nonce from storage that is old enough that its
-     * timestamp would not pass useNonce().
-     *
-     * This method is not called in the normal operation of the
-     * library.  It provides a way for store admins to keep their
-     * storage from filling up with expired data.
-     *
-     * @return the number of nonces expired
-     */
-    function cleanupNonces()
-    {
-        trigger_error("Auth_OpenID_OpenIDStore::cleanupNonces ".
-                      "not implemented", E_USER_ERROR);
-    }
-
-    /*
-     * Remove expired associations from the store.
-     *
-     * This method is not called in the normal operation of the
-     * library.  It provides a way for store admins to keep their
-     * storage from filling up with expired data.
-     *
-     * @return the number of associations expired.
-     */
-    function cleanupAssociations()
-    {
-        trigger_error("Auth_OpenID_OpenIDStore::cleanupAssociations ".
-                      "not implemented", E_USER_ERROR);
-    }
-
-    /*
-     * Shortcut for cleanupNonces(), cleanupAssociations().
-     *
-     * This method is not called in the normal operation of the
-     * library.  It provides a way for store admins to keep their
-     * storage from filling up with expired data.
-     */
-    function cleanup()
-    {
-        return array($this->cleanupNonces(),
-                     $this->cleanupAssociations());
     }
 
     /**
@@ -168,30 +122,6 @@ class Auth_OpenID_CouchDBStore {
       } else {
         return null;
       }
-    }
-
-    /**
-     * This method removes the matching association if it's found, and
-     * returns whether the association was removed or not.
-     *
-     * @param string $server_url The URL of the identity server the
-     * association to remove belongs to. Because of the way the server
-     * portion of the library uses this interface, don't assume there
-     * are any limitations on the character set of the input
-     * string. In particular, expect to see unescaped non-url-safe
-     * characters in the server_url field.
-     *
-     * @param string $handle This is the handle of the association to
-     * remove. If there isn't an association found that matches both
-     * the given URL and handle, then there was no matching handle
-     * found.
-     *
-     * @return mixed Returns whether or not the given association existed.
-     */
-    function removeAssociation($server_url, $handle)
-    {
-        trigger_error("Auth_OpenID_OpenIDStore::removeAssociation ".
-                      "not implemented", E_USER_ERROR);
     }
 
     /**

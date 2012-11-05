@@ -1,7 +1,11 @@
 <h4>My Clients</h4>
 <p>List of clients currently covered
 <div id="allclients">
-<?php foreach ($model as $item) { ?>
+<?php foreach ($model as $item) { 
+  if($item['_id'] == $login['_id']) {
+    continue;
+  }
+?>
 <div id="<?php echo $item['_id'] ?>" class="draggable">
  <table class="table table-hover">
   <tr>

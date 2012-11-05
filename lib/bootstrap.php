@@ -1,6 +1,7 @@
 <?php
 /* Load config */
 require_once (ROOT.'/app/config/infra.php');
+require_once (ROOT.'/app/config/entitlements.php');
 
 /* Load framework classes */
 require_once (ROOT.'/lib/controller.class.php');
