@@ -20,6 +20,11 @@ function is_authorized($url) {
   global $public;
   global $protected;
 
+  # Allow access to root
+  if(!$url) {
+    return true;
+  }
+
   $login_role = 'none';
   if(isset($_SESSION['login_role'])) {
     $login_role = $_SESSION['login_role'];

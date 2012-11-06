@@ -15,12 +15,12 @@
     <title>Sabaai : <?php echo $title ?></title>
     <meta charset="utf-8"/>
     <meta language="English"/>
+    <link href="css/bassai.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet">
 <?php foreach ($jsplugins as $jsplugin) { ?>
     <link href="css/<?php echo $jsplugin ?>.css" rel="stylesheet">
 <?php } ?>
-    <link href="css/bassai.css" rel="stylesheet">
   </head>
   <body>
   <div class="navbar navbar-inverse navbar-fixed-top">

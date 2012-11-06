@@ -5,8 +5,19 @@ class PropertyController extends Controller {
     $this->set('clients', $this->Property->select_clause_array($id, "by_id_logins", true));
 
     $model = $this->Property->select($id);
-    if(isset($_SESSION['image_return']['image'])) {
 
+    if (!$model) {
+      $this->redirect('nav', 's404');
+    }
+
+    if ($this->login['role'] == 'user') {
+      if ($model && !isset($model['clients'][$this->login['_id']])) {
+        $this->redirect('nav', 's403');
+      }
+    }
+
+    # If an image has been attached lets update the property
+    if(isset($_SESSION['image_return']['image'])) {
       $image_id = $_SESSION['image_return']['image'];
       if(isset($model['images'])) {
           $model['images'][] = $image_id;
@@ -15,9 +26,12 @@ class PropertyController extends Controller {
       }
       $this->Property->save($id, $model);
     }
+    # Add session details so if we go into an image attach
+    # dialog it knows where to return to
     $_SESSION['image_return'] = array('controller' => $this->controller, 
                                       'action' => 'get',
                                       'id' => $id);
+
     $this->set('model', $model);
   }
 

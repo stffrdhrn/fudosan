@@ -78,8 +78,7 @@ function run() {
   session_start();
 
   if (!is_authorized($url)) {
-    new NavController('403');
-    return;
+    $url = 'nav/s403';
   }
 
   # Parse our 3 part URL
@@ -94,7 +93,8 @@ function run() {
   if ((int)method_exists($controller, $action)) {
     call_user_func_array(array($dispatch,$action),array($query_string));
   } else {
-    new NavController('404');
+    error_log(" 404 - not found $controller : $action");
+    $dispatch->redirect('nav', 's404');
   }
 }
 
