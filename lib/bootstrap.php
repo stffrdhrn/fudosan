@@ -1,9 +1,10 @@
 <?php
 /* Load config */
 require_once (ROOT.'/app/config/infra.php');
-require_once (ROOT.'/app/config/entitlements.php');
+require_once (ROOT.'/app/config/helper.php');
 
 /* Load framework classes */
+require_once (ROOT.'/lib/stringutils.php');
 require_once (ROOT.'/lib/controller.class.php');
 require_once (ROOT.'/lib/couchdb.class.php');
 require_once (ROOT.'/lib/model.class.php');

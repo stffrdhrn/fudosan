@@ -38,7 +38,7 @@
         foreach ($model['images'] as $image) { ?>
      
           <div class="item<? if($first) { echo " active"; } ?>"> 
-            <img alt='image' src='<?php echo route('image', 'get.data', $image)?>' />
+            <img alt='image' src='<?php echo AppHelper::route('image', 'get.data', $image)?>' />
             <div class="carousel-caption">
 	      <a href="javascript:unlink_image('<?php echo $model['_id']."','".$image ?>')"><i class="icon-remove icon-white"></i>Remove Image</a>
 	    </div>
@@ -57,8 +57,8 @@
     <?php } ?>
 <?php if ($login['role'] != 'user') { ?>
     <div class="form-actions">
-      <a class="btn btn-primary" href="<?php echo route('property', 'edit', $model['_id']) ?>" ><i class="icon-edit icon-white"></i> Edit</a>
-      <a class="btn" href="<?php echo route('image', 'upload') ?>"><i class="icon-picture"></i> Attach Image</a>
+      <a class="btn btn-primary" href="<?php echo AppHelper::route('property', 'edit', $model['_id']) ?>" ><i class="icon-edit icon-white"></i> Edit</a>
+      <a class="btn" href="<?php echo AppHelper::route('image', 'upload') ?>"><i class="icon-picture"></i> Attach Image</a>
     </div>
 <?php } ?>
   </div>

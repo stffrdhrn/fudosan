@@ -7,7 +7,7 @@
 
     function __construct($action, $content_type = "html") {
       $model = get_class($this);
-      $model = trim_last($model, 'Controller');
+      $model = StringUtils::trim_last($model, 'Controller');
       
       $this->controller = strtolower($model); 
       $this->$model =& new $model;
@@ -60,7 +60,7 @@
       $this->save_redirect_messages();
 
       $this->redirected = true;
-      header('Location: '. route($controller, $action, $id));
+      header('Location: '. AppHelper::route($controller, $action, $id));
     }
 
 

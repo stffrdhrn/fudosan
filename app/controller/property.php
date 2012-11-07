@@ -60,7 +60,7 @@ class PropertyController extends Controller {
   function save() {
     $id = $_POST["_id"];
     if(!$id) {
-      $id = strtoid($_POST["name"]);
+      $id = StringUtils::strtoid($_POST["name"]);
     }
     $result = $this->Property->save($id, $_POST);
     if(isset($result["error"])) {

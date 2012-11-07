@@ -10,7 +10,7 @@
  <table class="table table-hover">
   <tr>
     <td width="48px"><?php echo gravatar($item, 32) ?>
-    <td><a href="<?php echo route('login', 'get', $item['_id'])?>"><?php echo $item['name'] ?></a>
+    <td><a href="<?php echo AppHelper::route('login', 'get', $item['_id'])?>"><?php echo $item['name'] ?></a>
   </tr>
  </table>
 </div>

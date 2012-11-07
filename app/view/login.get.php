@@ -36,9 +36,9 @@
       </div>
 
       <div class="form-actions">
-        <a class="btn" href="<?php echo route('login', 'listall') ?>">Back to My Clients</a>
+        <a class="btn" href="<?php echo AppHelper::route('login', 'listall') ?>">Back to My Clients</a>
 <?php if ($login['role'] == 'admin') { ?>
-        <a class="btn btn-warning" href="<?php echo route('login', 'edit', $model['_id']) ?>">Edit Client</a>
+        <a class="btn btn-warning" href="<?php echo AppHelper::route('login', 'edit', $model['_id']) ?>">Edit Client</a>
 <?php } ?>
       </div>
     </div>

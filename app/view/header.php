@@ -6,7 +6,7 @@
     if($tmpl->view == $view && $tmpl->action == $action) {
       $active = 'active';
     }
-    return '<li class="'.$active.'"><a href="'.route($view, $action, $id).'">'.$text.'</a></li>';
+    return '<li class="'.$active.'"><a href="'.AppHelper::route($view, $action, $id).'">'.$text.'</a></li>';
   }
 ?>
 

@@ -5,10 +5,10 @@
 <div id="<?php echo $item['_id'] ?>" class="draggable">
  <table class="table table-hover">
   <tr>
-    <td><a href="<?php echo route('property', 'get', $item['_id'])?>"><?php echo $item['name'] ?></a>
+    <td><a href="<?php echo AppHelper::route('property', 'get', $item['_id'])?>"><?php echo $item['name'] ?></a>
   </tr>
  </table>
 </div>
 <?php } ?>
 </div>
-<a class="btn" href="<?php echo route('property','edit') ?>">Create</a>
+<a class="btn" href="<?php echo AppHelper::route('property','edit') ?>">Create</a>

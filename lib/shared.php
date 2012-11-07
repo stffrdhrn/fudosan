@@ -1,14 +1,5 @@
 <?php
 
-function route($controller, $action, $id = null) {
-  $url = 'index.php?url='.$controller.'/'.$action;
-
-  if($id != null) {
-    $url .= '/'.$id;
-  }
-  return $url;
-}
-
 function gravatar($model, $size=128) {
   if ($model['email']) { 
     $hash = md5( strtolower( trim( $model['email'] ) ) );
@@ -17,17 +8,11 @@ function gravatar($model, $size=128) {
   return null;
 }
 
-function strtoid($str) {
-  $id = strtolower($str);
-  $id = trim($id);
-  $id = str_replace(" ", "-", $id);
-  return $id;
-}
 
 function parse_rest_url($url) {
   # Defaults
-  $controller = 'nav';
-  $action = 'home';
+  $controller = null;
+  $action = null;
   $content_type = null;
   $query_string = null;
 
@@ -77,8 +62,10 @@ function run() {
   global $url;
   session_start();
 
-  if (!is_authorized($url)) {
-    $url = 'nav/s403';
+  if (class_exists('AppHelper')) {
+    $url = AppHelper::validate_and_authorize($url);
+  } else {
+    error_log ('this app has no AppHandler defined, hence no secutiy ');
   }
 
   # Parse our 3 part URL
@@ -93,23 +80,14 @@ function run() {
   if ((int)method_exists($controller, $action)) {
     call_user_func_array(array($dispatch,$action),array($query_string));
   } else {
-    error_log(" 404 - not found $controller : $action");
-    $dispatch->redirect('nav', 's404');
+    AppHelper::not_found($dispatch, $url); 
   }
-}
-
-function trim_last($str, $needle) {
-  $pos = strrpos($str, $needle);
-  if ($pos) {
-    $str = substr($str, 0, $pos);
-  }
-  return $str;
 }
 
 /** Autoload all classes that are required **/
 
 function __autoload($className) {
-  $controllerPath = ROOT . '/app/controller/'. strtolower(trim_last($className,'Controller')) . '.php';
+  $controllerPath = ROOT . '/app/controller/'. strtolower(StringUtils::trim_last($className,'Controller')) . '.php';
   $modelPath = ROOT . '/app/model/'. strtolower($className) . '.php';
 
   foreach(array($controllerPath, $modelPath) as $path) {

@@ -3,7 +3,7 @@
 <table class="table table-hover">
 <?php foreach ($model as $item) { ?>
   <tr>
-    <td><a href="<?php echo route('property', 'get', $item['_id'])?>"><?php echo $item['name'] ?></a>
+    <td><a href="<?php echo AppHelper::route('property', 'get', $item['_id'])?>"><?php echo $item['name'] ?></a>
   </tr>
 <?php } ?>
 </table>
